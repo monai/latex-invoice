@@ -5,5 +5,6 @@ LaTeX template for lithuanian multi-page invoice with header and footer on every
 ## usage
 
 - `vagrant up`
+- `vagrant ssh`
 - `cd /vagrant`
 - `make`
