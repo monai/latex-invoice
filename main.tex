@@ -12,142 +12,46 @@
   footsepline=true
 ]{scrartcl}
 
-% koma hacks
-\usepackage{scrhack}
-
-% language
-\usepackage[lithuanian]{babel}
-\selectlanguage{lithuanian}
-
-% fonts
-\usepackage{fontspec}
-\defaultfontfeatures{Ligatures=TeX}
+\usepackage{latex-invoice-lt}
 \setmainfont{Droid Sans}
 
-% graphicx
-\usepackage{graphicx}
-
-% spacing
-\usepackage{setspace}
-% \setstretch{1.2}
-
-% various stuff
-\usepackage{underscore}
-\usepackage{microtype}
-\usepackage[hyphens]{url}
-\usepackage[
-  % hidelinks=true,
-  breaklinks=true,
-  pdfstartview=FitH
-]{hyperref}
-\hbadness=10000
-\hfuzz=15pt
-
-% lists
-\usepackage{easylist}
-\usepackage[inline]{enumitem}
-
-% quotes
-\usepackage{csquotes}
-\DeclareQuoteStyle{lithuanian}
-  {\quotedblbase}
-  {\textquotedblleft}
-  [0.05em]
-  {\quotesinglbase}
-  {\fixligatures\textquoteleft}
-
-% random
-\usepackage{longtable}
-\usepackage{blindtext}
-
-% headers
-\usepackage{scrlayer-scrpage}
-\clearscrheadfoot 
-
-\newcommand{\myheader}{%
-  \begin{minipage}[t]{\textwidth}
-    \centering
-    \large\textbf{PVM sąskaita faktūra} \\
-    \normalsize{Serija ABC nr. 0000001}
-    \bigskip
-    \smallskip
-  \end{minipage}
-  
-  \begin{minipage}[t]{\textwidth}
-    \small
-    \begin{tabular}[b]{@{}p{3cm}p{5cm}@{}}
-      \multicolumn{2}{@{}l}{
-        \large{\textbf{UAB Ventiliatorius}}
-      }
-    \end{tabular}
-    \hfill
-    \begin{tabular}[b]{@{}p{2.8cm}p{5cm}@{}}
-      \normalsize{Dokumento nr.} & \normalsize{ABC000000000001}
-    \end{tabular}
-    
-    \medskip
-    
-    \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
-      Registracijos adresas & Kalvarijų 47-18, LT-01234, Vilnius \\
-      Telefonas             & +370 666 12345 \\
-      Įmonės kodas          & 123456789      \\
-      PVM mokėtojo kodas    & LT100000000000
-    \end{tabular}
-    \hfill
-    \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
-      Data                & 2016-01-01    \\
-      Apmokėti iki        & 2016-02-01    \\
-      Bankas              & AB Bankas Sekundė \\
-      Banko sąskaitos nr. & LT00 7000 0000 0000 0000
-    \end{tabular}
-
-    \par\nobreak\vspace{2mm}\rule{\textwidth}{0.4pt}\vspace{2mm}
-    
-    \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
-      Pirkėjas           & UAB Kardanas     \\
-      Kodas              & 123456789        \\
-      PVM mokėtojo kodas & LT100000000000   \\
-      Adresas            & Belzębubų sodų 666-oji, Kazlų rūda, Rumunija
-    \end{tabular}
-    \hfill
-    \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
-      Kasos aparato nr. & IP10000000 \\
-      Kvito nr.         & 00012345
-    \end{tabular}
-  \end{minipage}
-}
-
-\newcommand{\myfooter}{%
-  \scriptsize\textbf{UAB Ventiliatorius}
-  \(\cdot\)
-  +370 666 12345
-  \(\cdot\)
-  http://example.com
-  \(\cdot\)
-  info@example.com
-  
-  \smallskip
-  
-  ŠVENTINIAI BALIONAI
-  \(\cdot\)
-  GLAZŪRUOTOS PLYTELĖS
-  \(\cdot\)
-  KEBABAI
-}
-
-\setkomafont{disposition}{\normalfont}
-\setkomafont{pageheadfoot}{\normalfont}
-
-\chead{\myheader}
-\cfoot{\myfooter}
-\rofoot{\small{\pagemark}}
-
-\usepackage{array}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
 \begin{document}
+\include{defaults}
+
+% accounting information
+\setproperty{invoice}{Sum}{89,67}
+\setproperty{invoice}{VAT}{18,83}
+\setproperty{invoice}{Total}{108,50}
+
+\setproperty{POS}{ID}{IP10000000}
+\setproperty{POS}{Number}{00012345}
+
+\setproperty{invoice}{Series}{ABC}
+\setproperty{invoice}{Number}{0000011}
+\setproperty{invoice}{ID}{\getproperty{invoice}{Series}\getproperty{invoice}{Number}}
+
+\setproperty{invoice}{Date}{2016-01-01}
+\setproperty{invoice}{Due}{2016-02-30}
+
+\setproperty{seller}{Name}{UAB Ventiliatorius}
+\setproperty{seller}{Address}{Kalvarijų 47-18, LT-01234, Vilnius}
+\setproperty{seller}{Phone}{+370 666 12345}
+\setproperty{seller}{Bank}{AB Bankas Sekundė}
+\setproperty{seller}{Account}{LT00 7000 0000 0000 0000}
+\setproperty{seller}{Position}{Direktorius}
+\setproperty{seller}{Person}{Direktorius, Jonas Jonka}
+\setproperty{seller}{URI}{http://example.com}
+\setproperty{seller}{Email}{info@example.com}
+\setproperty{seller}{Banner}{ŠVENTINIAI BALIONAI $\cdot$ GLAZŪRUOTOS PLYTELĖS $\cdot$ KEBABAI}
+
+% client information
+\setproperty{client}{Name}{UAB Kardanas}
+\setproperty{client}{Address}{Belzębubų sodų 666-oji, Kazlų rūda, Rumunija}
+\setproperty{client}{Phone}{+370 666 677766}
+\setproperty{client}{Bank}{AB Bankas Po Minutės}
+\setproperty{client}{Account}{LT00 7000 0000 0006 6600}
+\setproperty{client}{ID}{123456789}
+\setproperty{client}{VAT}{LT100000000777}
 
 %------------------------------
 
@@ -156,11 +60,10 @@
 \begin{longtable}{L{7.7cm}L{1.7cm}L{1.7cm}|R{2cm}|R{2cm}|}
 
 \hline
-
 \multicolumn{1}{|L{7.7cm} }{\textbf{Pavadinimas}} &
-\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}} &
-\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}    &
-\textbf{Kaina, €} & \textbf{Suma, €}           \\
+\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}}   &
+\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}      &
+\textbf{Kaina, €} & \textbf{Suma, €}              \\
 
 \hline
 \endfirsthead
@@ -168,9 +71,9 @@
 \hline
 
 \multicolumn{1}{|L{7.7cm} }{\textbf{Pavadinimas}} &
-\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}} &
-\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}    &
-\textbf{Kaina, €} & \textbf{Suma, €}           \\
+\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}}   &
+\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}      &
+\textbf{Kaina, €} & \textbf{Suma, €}              \\
 
 \hline
 \endhead
@@ -179,88 +82,70 @@
 \endfoot
 \endlastfoot
 
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis sem.} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
-\multicolumn{1}{|L{7.7cm}}{Sankaba} & \multicolumn{1}{|l}{vnt.} & \multicolumn{1}{|l|}{5,00} & 28,93 & 28,93 \\ \hline
+\pos{Diržas} & \units{vnt.} & \qtty{7,00} & \price{23,32} & \total{23,32}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
 
-\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{Suma be PVM}   & 89,67  \\ \cline{3-5}
-\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{PVM 21,00\%}   & 18,83  \\ \cline{3-5}
-\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{Mokėjimo suma} & 108,50 \\ \cline{3-5}
+\pos{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis sem.} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+\pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
+
+\invoiceSum
+\invoiceVAT
+\invoiceTotal
 
 \end{longtable}
 
-\begin{minipage}[t]{0.4\textwidth}
-  \vspace{3cm}
-  Sąskaitą išrašė
-  
-  \bigskip
-  \bigskip
-  
-  \hspace{1em}\small{Direktorius, Jonas Jonka}
-  \par\nobreak\vspace{-9pt}\rule{\textwidth}{0.4pt}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.4\textwidth}
-  \vspace{3cm}
-  Sąskaitą priėmė
-  
-  \bigskip
-  \bigskip
-  
-  \hspace{1em}\small{}
-  \par\nobreak\vspace{-9pt}\rule{\textwidth}{0.4pt}\par
-  \centering\scriptsize{(pareigos, vardas, pavardė, parašas)}
-\end{minipage}
-
+\invoiceParties{}
 
 %------------------------------
 
