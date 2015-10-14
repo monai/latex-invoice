@@ -65,7 +65,8 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install -y texlive texlive-xetex texlive-lang-lithuanian fonts-droid
+    sed -i 's#http:\/\/us.#http:\/\/#g' /etc/apt/sources.list
+    apt-get update
+    apt-get install -y texlive texlive-xetex texlive-lang-lithuanian fonts-droid
   SHELL
 end
