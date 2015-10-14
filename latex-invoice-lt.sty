@@ -1,0 +1,218 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{latex-invoice-lt}[2015/10/16 Standard LaTeX package]
+
+%\LoadClass[paper=a4,fontsize=10pt,parskip=full,DIV=21,BCOR=8mm,headinclude=true,
+% % footinclude=true,
+%  headheight=7cm,
+%  footheight=-0.5cm,
+%  % headsepline=true,
+%  footsepline=true
+%]{scrartcl}
+
+%  Properties a la Lisp.
+\def\ece#1#2{\expandafter#1\csname#2\endcsname}%
+
+% \setproperty{ATOM}{PROPNAME}{VALUE} defines the property PROPNAME on the
+% ``atom'' ATOM to have VALUE.
+\def\setproperty#1#2#3{\ece\protected@edef{#1@p#2}{#3}}%
+\def\setpropertyglobal#1#2#3{\ece\protected@xdef{#1@p#2}{#3}}%
+
+% \getproperty{ATOM}{PROPNAME} expands to the value of the property
+% PROPNAME on ATOM, or to nothing (i.e., \empty), if the property isn't
+% present.
+\def\getproperty#1#2{%
+  \expandafter\ifx\csname#1@p#2\endcsname\relax
+  % then \empty
+  \else \csname#1@p#2\endcsname
+  \fi
+}
+
+% \setproperty{test}{aproperty}{12}
+% \getproperty{test}{aproperty}
+
+
+% koma hacks
+\RequirePackage{scrhack}
+
+% language
+\RequirePackage[lithuanian]{babel}
+\selectlanguage{lithuanian}
+
+% fonts
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+% graphicx
+\RequirePackage{graphicx}
+
+% spacing
+\RequirePackage{setspace}
+% \setstretch{1.2}
+
+% various stuff
+\RequirePackage{underscore}
+\RequirePackage{microtype}
+\RequirePackage[hyphens]{url}
+\RequirePackage[
+  % hidelinks=true,
+  breaklinks=true,
+  pdfstartview=FitH
+]{hyperref}
+\hbadness=10000
+\hfuzz=15pt
+
+% lists
+\RequirePackage{easylist}
+\RequirePackage[inline]{enumitem}
+
+% quotes
+\RequirePackage{csquotes}
+\DeclareQuoteStyle{lithuanian}
+  {\quotedblbase}
+  {\textquotedblleft}
+  [0.05em]
+  {\quotesinglbase}
+  {\fixligatures\textquoteleft}
+
+% random
+\RequirePackage{longtable}
+\RequirePackage{blindtext}
+
+% header
+\usepackage{scrlayer-scrpage}
+\clearscrheadfoot 
+
+\newcommand{\myheader}{%
+  \begin{minipage}[t]{\textwidth}
+    \centering
+    \large\textbf{PVM sąskaita faktūra} \\
+    \normalsize{Serija \getproperty{invoice}{Series} nr. \getproperty{invoice}{Number}}
+    \bigskip
+    \smallskip
+  \end{minipage}
+  
+  \begin{minipage}[t]{\textwidth}
+    \small
+    \begin{tabular}[b]{@{}p{3cm}p{5cm}@{}}
+      \multicolumn{2}{@{}l}{
+        \large{\textbf{\getproperty{seller}{Name}}}
+      }
+    \end{tabular}
+    \hfill
+    \begin{tabular}[b]{@{}p{2.8cm}p{5cm}@{}}
+      \normalsize{Dokumento nr.} & \normalsize{\getproperty{invoice}{ID}}
+    \end{tabular}
+    
+    \medskip
+    
+    \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
+      Registracijos adresas & \getproperty{seller}{Address} \\
+      Telefonas             & \getproperty{seller}{Phone}   \\
+      Įmonės kodas          & \getproperty{seller}{ID}      \\
+      PVM mokėtojo kodas    & \getproperty{seller}{VAT}
+    \end{tabular}
+    \hfill
+    \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
+      Data                & \getproperty{invoice}{Date}    \\
+      Apmokėti iki        & \getproperty{invoice}{Due}     \\
+      Bankas              & \getproperty{seller}{Bank}     \\
+      Banko sąskaitos nr. & \getproperty{seller}{Account}
+    \end{tabular}
+    
+    \par\nobreak\vspace{2mm}\rule{\textwidth}{0.4pt}\vspace{2mm}
+    
+    \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
+      Pirkėjas           & \getproperty{client}{Name}    \\
+      Kodas              & \getproperty{client}{ID}      \\
+      PVM mokėtojo kodas & \getproperty{client}{VAT}     \\
+      Adresas            & \getproperty{client}{Address}
+    \end{tabular}
+    \hfill
+    \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
+      Kasos aparato nr. & \getproperty{POS}{ID}     \\
+      Kvito nr.         & \getproperty{POS}{Number}
+    \end{tabular}
+  \end{minipage}
+}
+
+% footer
+\newcommand{\myfooter}{%
+  \scriptsize\textbf{\getproperty{seller}{Name}}
+  \(\cdot\)
+  \getproperty{seller}{Phone}
+  \(\cdot\)
+  \getproperty{seller}{URI}
+  \(\cdot\)
+  \getproperty{seller}{Email}
+  
+  \smallskip
+  \getproperty{seller}{Banner}
+}
+
+% invoice parties
+\newcommand{\invoiceParties}{
+
+\begin{minipage}[t]{0.4\textwidth}
+  \vspace{1cm}
+  Sąskaitą išrašė
+  \vspace{20pt}
+  
+  \hspace{1em}\small{\getproperty{seller}{position} \getproperty{seller}{Person}}
+  \par\nobreak\vspace{-9pt}\rule{\textwidth}{0.4pt}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+  \vspace{1cm}
+  Sąskaitą priėmė
+  \vspace{20pt}
+  
+  \hspace{1em}\small{}
+  \par\nobreak\vspace{-9pt}\rule{\textwidth}{0.4pt}\par
+  \centering\scriptsize{(pareigos, vardas, pavardė, parašas)}
+\end{minipage}
+
+}
+
+\newcommand{\invoiceSum}{
+\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{Suma be PVM}   & \getproperty{invoice}{Sum}  \\ \cline{3-5}}
+
+\newcommand{\invoiceVAT}{
+\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{PVM \getproperty{invoice}{VATrate}\%}   & \getproperty{invoice}{VAT}  \\ \cline{3-5}
+}
+
+
+\newcommand{\invoiceTotal}{
+\multicolumn{2}{l}{} & \multicolumn{2}{|r|}{Mokėjimo suma} & \getproperty{invoice}{Total} \\ \cline{3-5}
+}
+
+\newcommand{\pos}[1]{
+\multicolumn{1}{|L{7.7cm}}{#1}
+} 
+
+\newcommand{\units}[1]{
+\multicolumn{1}{|l}{#1}
+}
+
+\newcommand{\qtty}[1]{
+\multicolumn{1}{|l|}{#1}
+}
+
+\newcommand{\price}[1]{
+#1
+}
+
+\newcommand{\total}[1]{
+#1 \\ \hline
+}
+
+\setkomafont{disposition}{\normalfont}
+\setkomafont{pageheadfoot}{\normalfont}
+
+\chead{\myheader}
+\cfoot{\myfooter}
+\rofoot{\small{\pagemark}}
+
+\RequirePackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
