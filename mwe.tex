@@ -12,21 +12,18 @@
   footsepline=true
 ]{scrartcl}
 
-
 \usepackage{latex-invoice-lt}
-
+\setmainfont{Droid Sans}
 
 \begin{document}
 \include{defaults}
 
 % accounting information
-
-
 \setproperty{invoice}{Sum}{89,67}
 \setproperty{invoice}{VAT}{18,83}
 \setproperty{invoice}{Total}{108,50}
 
-
+\setproperty{POS}{ID}{IP10000000}
 \setproperty{POS}{Number}{00012345}
 
 \setproperty{invoice}{Series}{ABC}
@@ -36,19 +33,25 @@
 \setproperty{invoice}{Date}{2016-01-01}
 \setproperty{invoice}{Due}{2016-02-30}
 
-\setproperty{seller}{position}{Direktorius}
-\setproperty{seller}{Name}{Jonas Jonka}
+\setproperty{seller}{Name}{UAB Ventiliatorius}
+\setproperty{seller}{Address}{Kalvarijų 47-18, LT-01234, Vilnius}
+\setproperty{seller}{Phone}{+370 666 12345}
+\setproperty{seller}{Bank}{AB Bankas Sekundė}
+\setproperty{seller}{Account}{LT00 7000 0000 0000 0000}
+\setproperty{seller}{Position}{Direktorius}
+\setproperty{seller}{Person}{Direktorius, Jonas Jonka}
+\setproperty{seller}{URI}{http://example.com}
+\setproperty{seller}{Email}{info@example.com}
+\setproperty{seller}{Banner}{ŠVENTINIAI BALIONAI $\cdot$ GLAZŪRUOTOS PLYTELĖS $\cdot$ KEBABAI}
 
 % client information
-%------------------------------
-\setproperty{client}{name}{UAB Kardanas}
-\setproperty{client}{address}{Belzębubų sodų 666-oji, Kazlų rūda, Rumunija}
-\setproperty{client}{phone}{+370 666 677766}
+\setproperty{client}{Name}{UAB Kardanas}
+\setproperty{client}{Address}{Belzębubų sodų 666-oji, Kazlų rūda, Rumunija}
+\setproperty{client}{Phone}{+370 666 677766}
+\setproperty{client}{Bank}{AB Bankas Po Minutės}
+\setproperty{client}{Account}{LT00 7000 0000 0006 6600}
 \setproperty{client}{ID}{123456789}
 \setproperty{client}{VAT}{LT100000000777}
-\setproperty{client}{bank}{AB Bankas Po Minutės}
-\setproperty{client}{account}{LT00 7000 0000 0006 6600}
-
 
 %------------------------------
 
@@ -56,13 +59,11 @@
 \setlength\LTright{0pt}
 \begin{longtable}{L{7.7cm}L{1.7cm}L{1.7cm}|R{2cm}|R{2cm}|}
 
-
 \hline
-
 \multicolumn{1}{|L{7.7cm} }{\textbf{Pavadinimas}} &
-\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}} &
-\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}    &
-\textbf{Kaina, €} & \textbf{Suma, €}           \\
+\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}}   &
+\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}      &
+\textbf{Kaina, €} & \textbf{Suma, €}              \\
 
 \hline
 \endfirsthead
@@ -70,9 +71,9 @@
 \hline
 
 \multicolumn{1}{|L{7.7cm} }{\textbf{Pavadinimas}} &
-\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}} &
-\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}    &
-\textbf{Kaina, €} & \textbf{Suma, €}           \\
+\multicolumn{1}{|L{1.7cm} }{\textbf{Mato vnt.}}   &
+\multicolumn{1}{|L{1.7cm}|}{\textbf{Kiekis}}      &
+\textbf{Kaina, €} & \textbf{Suma, €}              \\
 
 \hline
 \endhead
@@ -82,7 +83,6 @@
 \endlastfoot
 
 \pos{Diržas} & \units{vnt.} & \qtty{7,00} & \price{23,32} & \total{23,32}
-
 \pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
 \pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
 \pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
@@ -139,16 +139,13 @@
 \pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
 \pos{Sankaba} & \units{vnt.} & \qtty{5,00} & \price{28,93} & \total{28,93}
 
-
 \invoiceSum
 \invoiceVAT
 \invoiceTotal
 
 \end{longtable}
 
-
 \invoiceParties{}
-
 
 %------------------------------
 

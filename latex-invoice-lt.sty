@@ -9,27 +9,24 @@
 %  footsepline=true
 %]{scrartcl}
 
-
 %  Properties a la Lisp.
 \def\ece#1#2{\expandafter#1\csname#2\endcsname}%
+
 % \setproperty{ATOM}{PROPNAME}{VALUE} defines the property PROPNAME on the
 % ``atom'' ATOM to have VALUE.
-% 
 \def\setproperty#1#2#3{\ece\protected@edef{#1@p#2}{#3}}%
 \def\setpropertyglobal#1#2#3{\ece\protected@xdef{#1@p#2}{#3}}%
-%
-% 
+
 % \getproperty{ATOM}{PROPNAME} expands to the value of the property
 % PROPNAME on ATOM, or to nothing (i.e., \empty), if the property isn't
 % present.
-% 
 \def\getproperty#1#2{%
   \expandafter\ifx\csname#1@p#2\endcsname\relax
   % then \empty
   \else \csname#1@p#2\endcsname
   \fi
 }
-%
+
 % \setproperty{test}{aproperty}{12}
 % \getproperty{test}{aproperty}
 
@@ -37,21 +34,13 @@
 % koma hacks
 \RequirePackage{scrhack}
 
-\RequirePackage{ucs}
-%\RequirePackage[utf8x]{inputenc}
-%\RequirePackage[L7x]{fontenc}
-\RequirePackage[T1]{fontenc}
-
-
 % language
 \RequirePackage[lithuanian]{babel}
-%\selectlanguage{lithuanian}
-
+\selectlanguage{lithuanian}
 
 % fonts
 \RequirePackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
-%\setmainfont{Droid Sans}
 
 % graphicx
 \RequirePackage{graphicx}
@@ -78,7 +67,6 @@
 
 % quotes
 \RequirePackage{csquotes}
-
 \DeclareQuoteStyle{lithuanian}
   {\quotedblbase}
   {\textquotedblleft}
@@ -90,8 +78,7 @@
 \RequirePackage{longtable}
 \RequirePackage{blindtext}
 
-
-% headers
+% header
 \usepackage{scrlayer-scrpage}
 \clearscrheadfoot 
 
@@ -108,7 +95,7 @@
     \small
     \begin{tabular}[b]{@{}p{3cm}p{5cm}@{}}
       \multicolumn{2}{@{}l}{
-        \large{\textbf{\getproperty{seller}{name}}}
+        \large{\textbf{\getproperty{seller}{Name}}}
       }
     \end{tabular}
     \hfill
@@ -119,46 +106,47 @@
     \medskip
     
     \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
-      Registracijos adresas & \getproperty{seller}{address} \\
-      Telefonas             & \getproperty{seller}{phone} \\
+      Registracijos adresas & \getproperty{seller}{Address} \\
+      Telefonas             & \getproperty{seller}{Phone}   \\
       Įmonės kodas          & \getproperty{seller}{ID}      \\
       PVM mokėtojo kodas    & \getproperty{seller}{VAT}
     \end{tabular}
     \hfill
     \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
       Data                & \getproperty{invoice}{Date}    \\
-      Apmokėti iki        & \getproperty{invoice}{Due}    \\
-      Bankas              & \getproperty{seller}{bank} \\
-      Banko sąskaitos nr. & \getproperty{seller}{account}
+      Apmokėti iki        & \getproperty{invoice}{Due}     \\
+      Bankas              & \getproperty{seller}{Bank}     \\
+      Banko sąskaitos nr. & \getproperty{seller}{Account}
     \end{tabular}
-
+    
     \par\nobreak\vspace{2mm}\rule{\textwidth}{0.4pt}\vspace{2mm}
     
     \begin{tabular}[t]{@{}p{3cm}p{5cm}@{}}
-      Pirkėjas           & \getproperty{client}{name}     \\
-      Kodas              & \getproperty{client}{ID}        \\
-      PVM mokėtojo kodas & \getproperty{client}{VAT}   \\
-      Adresas            & \getproperty{client}{address}
+      Pirkėjas           & \getproperty{client}{Name}    \\
+      Kodas              & \getproperty{client}{ID}      \\
+      PVM mokėtojo kodas & \getproperty{client}{VAT}     \\
+      Adresas            & \getproperty{client}{Address}
     \end{tabular}
     \hfill
     \begin{tabular}[t]{@{}p{2.8cm}p{5cm}@{}}
-      Kasos aparato nr. & \getproperty{POS}{ID} \\
+      Kasos aparato nr. & \getproperty{POS}{ID}     \\
       Kvito nr.         & \getproperty{POS}{Number}
     \end{tabular}
   \end{minipage}
 }
 
+% footer
 \newcommand{\myfooter}{%
-  \scriptsize\textbf{UAB Ventiliatorius}
+  \scriptsize\textbf{\getproperty{seller}{Name}}
   \(\cdot\)
-  \getproperty{seller}{phone}
+  \getproperty{seller}{Phone}
   \(\cdot\)
-  \getproperty{seller}{uri}
+  \getproperty{seller}{URI}
   \(\cdot\)
-  \getproperty{seller}{email}
+  \getproperty{seller}{Email}
   
   \smallskip
-  \getproperty{seller}{banner}
+  \getproperty{seller}{Banner}
 }
 
 % invoice parties
@@ -169,7 +157,7 @@
   Sąskaitą išrašė
   \vspace{20pt}
   
-  \hspace{1em}\small{\getproperty{seller}{position} \getproperty{seller}{Name}}
+  \hspace{1em}\small{\getproperty{seller}{position} \getproperty{seller}{Person}}
   \par\nobreak\vspace{-9pt}\rule{\textwidth}{0.4pt}
 \end{minipage}
 \hfill
@@ -217,7 +205,6 @@
 #1 \\ \hline
 }
 
-
 \setkomafont{disposition}{\normalfont}
 \setkomafont{pageheadfoot}{\normalfont}
 
@@ -229,6 +216,3 @@
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-
-
